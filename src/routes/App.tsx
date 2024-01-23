@@ -6,8 +6,10 @@ const App = () => {
 
   return (
     <>
-      <Header />
-      <Outlet />
+      <main>
+        <Header />
+        <Outlet />
+      </main>
     </>
   )
 }
