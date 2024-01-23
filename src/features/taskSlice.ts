@@ -20,11 +20,25 @@ export const taskSlice = createSlice({
     // Use the PayloadAction type to declare the contents of `action.payload`
     addTask: (state, action: PayloadAction<TaskItem>) => {
       state.tasks = [action.payload, ...state.tasks]
+    },
+
+    updateTask: (state, action: PayloadAction<TaskItem>) => {
+      state.tasks = state.tasks.map((task) => 
+        task.id === action.payload.id ? {
+          ...task,
+          title: action.payload.title,
+          description: action.payload.description
+        } : task
+      )
+    },
+
+    deleteTask: (state, action: PayloadAction<TaskItem>) => {
+      state.tasks = state.tasks.filter((task: TaskItem) => task.id !== action.payload.id)
     }
   }
 })
 
-export const { addTask } = taskSlice.actions
+export const { addTask, updateTask, deleteTask } = taskSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectTask = (state: RootState) => state.todo.tasks
