@@ -4,8 +4,8 @@ import { Provider } from 'react-redux'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { store } from './app/store.ts'
 import './index.css'
-import AddTask from './routes/AddTask.tsx'
 import App from './routes/App.tsx'
+import TaskDetail from './routes/TaskDetail.tsx'
 import TaskList from './routes/TaskList.tsx'
 
 const router = createBrowserRouter([
@@ -15,14 +15,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <TaskList />,
-        children: [
-          {
-            path: '/create-task',
-            element: <AddTask />,
-          }
-        ]
+        element: <TaskList />
       },
+      {
+        path: 'task/:id',
+        element: <TaskDetail />
+      }
     ]
   }
 ]);
