@@ -6,7 +6,7 @@ const Task = ({
   title,
   description
 }: {
-  id: number,
+  id: string,
   title: string,
   description: string
 }) => {
@@ -14,7 +14,7 @@ const Task = ({
   return (
     <>
       <div className={classes.task}>
-        <Link to={`/post/${id}`}>
+        <Link to={`/task/${id}`}>
           <p className={classes.title}>{title}</p>
           <p className={classes.description}>{description}</p>
         </Link>
