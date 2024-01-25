@@ -3,7 +3,7 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hook'
 import { deleteTask, selectTask, updateTask } from '../features/taskSlice'
-import EditTask from '../routes/EditTask'
+import EditTask from './EditTask'
 
 export type TaskItem = {
   id: string,

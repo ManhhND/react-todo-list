@@ -1,5 +1,5 @@
-import { TaskItem } from "../components/Task";
-import TaskForm from "../components/TaskForm";
+import { TaskItem } from "./Task";
+import TaskForm from "./TaskForm";
 
 const EditTask = ({
   onStopEditting,
