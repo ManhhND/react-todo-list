@@ -28,15 +28,15 @@ const TaskDetail = () => {
   return (
     <>
       {isEditting && <EditTask onStopEditting={hideModal} taskData={task} />}
-      <h1>Task Detail page</h1>
-      <article className=''>
-        <p>Title: {task.title}</p>
-        <p>Description: {task.description}</p>
-        <menu className=''>
-          <button type='button' onClick={showModal}>Edit</button>
-          <button onClick={handleDeleteTask}>Delete</button>
-        </menu>
+      <article className="text-center lg:w-2/3 lg:mx-auto mb-10">
+        <h2 className="mb-4 font-bold text-4xl uppercase">{task.title}</h2>
+        <p className="italic">{task.description}</p>
+        {/* <time>Due date: {task.date}</time> */}
       </article>
+      <div className="flex gap-2 justify-center">
+        <button className="p-4 rounded-md bg-violet-500 hover:bg-violet-600 text-white w-1/2 md:w-1/5" type="button" onClick={showModal}>Edit</button>
+        <button className="p-4 rounded-md bg-red-500 hover:bg-red-600 text-white w-1/2 md:w-1/5" onClick={handleDeleteTask}>Delete</button>
+      </div>
     </>
   )
 }
