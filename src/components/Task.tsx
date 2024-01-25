@@ -50,15 +50,7 @@ const Task = ({
         <div className="flex justify-between gap-4">
           <div className="w-1/12 flex">
             <input type="checkbox" className="hidden peer" id={`task-${id}-completion`} onClick={handleCompleteTask} defaultChecked={completed} />
-            <label
-              htmlFor={`task-${id}-completion`}
-              className="relative flex cursor-pointer before:rounded-full
-              before:absolute before:left-0 before:flex before:h-6 before:w-6
-              before:items-center before:justify-center before:border-2
-              before:border-violet-500 before:bg-white before:transition-[background-color]
-              before:duration-300 before:ease-in before:content-['']
-              peer-checked:before:text-violet-500 peer-checked:before:bg-violet-500 peer-checked:before:text-white
-              peer-checked:before:content-['✓'] peer-checked:before:font-bold"
+            <label htmlFor={`task-${id}-completion`} className={`relative flex cursor-pointer before:rounded-full before:absolute before:left-0 before:flex before:h-6 before:w-6 before:items-center before:justify-center before:border-2 before:border-violet-500 ${completed ? "before:bg-violet-500 before:text-white before:content-['✓'] before:font-bold" : "before:bg-white before:content-['']"}`}
             >
             </label>
           </div>
