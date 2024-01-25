@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { store } from './app/store.ts'
 import './index.css'
 import App from './routes/App.tsx'
+import CompletedTaskList from './routes/CompletedTaskList.tsx'
 import TaskDetail from './routes/TaskDetail.tsx'
 import TaskList from './routes/TaskList.tsx'
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'task/:id',
         element: <TaskDetail />
+      },
+      {
+        path: 'completed-tasks',
+        element: <CompletedTaskList />
       }
     ]
   }
