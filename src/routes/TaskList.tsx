@@ -1,16 +1,11 @@
 import { useState } from 'react';
+import { FaCheckDouble } from 'react-icons/fa';
 import { MdAddTask } from 'react-icons/md';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../app/hook';
-import Task from '../components/Task';
+import Task, { TaskItem } from '../components/Task';
 import { selectTask } from '../features/taskSlice';
 import AddTask from './AddTask';
-
-export type TaskItem = {
-  id: string,
-  title: string,
-  description: string
-}
 
 const TaskList = () => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
@@ -27,17 +22,20 @@ const TaskList = () => {
   return (
     <>
       <Outlet />
-      <div className="mb-4 float-right">
+      <div className="mb-4 flex justify-between">
+        <Link to="completed-tasks" className="border border-violet-500 rounded-lg p-4 flex items-center gap-2 bg-violet-500 hover:bg-violet-600 text-white" onClick={showModal}>
+          <FaCheckDouble size={18} />
+          Completed Tasks
+        </Link>
         <button className="border border-violet-500 rounded-lg p-4 flex items-center gap-2 bg-violet-500 hover:bg-violet-600 text-white" onClick={showModal}>
           <MdAddTask size={18} />
           New Task
         </button>
       </div>
-      <div className="clear-both"></div>
       {isAdding && <AddTask onStopAdding={hideModal} />}
       {taskList.length > 0 && (
         <ul>
-          {taskList.map((task: TaskItem) => <Task id={task.id} title={task?.title} description={task?.description} key={`task-${task.id}`} />)}
+          {taskList.map((task: TaskItem) => <Task id={task.id} title={task?.title} description={task?.description} completed={task.completed} key={`task-${task.id}`} />)}
         </ul>
       )}
       {taskList.length === 0 && (
