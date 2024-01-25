@@ -6,6 +6,7 @@ import { store } from './app/store.ts'
 import './index.css'
 import App from './routes/App.tsx'
 import CompletedTaskList from './routes/CompletedTaskList.tsx'
+import ErrorPage from './routes/Error.tsx'
 import TaskDetail from './routes/TaskDetail.tsx'
 import TaskList from './routes/TaskList.tsx'
 
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
