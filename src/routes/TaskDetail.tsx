@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hook';
+import EditTask from '../components/EditTask';
 import { deleteTask, selectTask } from '../features/taskSlice';
-import EditTask from './EditTask';
 
 const TaskDetail = () => {
   const [isEditting, setIsEditting] = useState<boolean>(false)

@@ -3,9 +3,9 @@ import { FaCheckDouble } from 'react-icons/fa';
 import { MdAddTask } from 'react-icons/md';
 import { Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../app/hook';
+import AddTask from '../components/AddTask';
 import Task, { TaskItem } from '../components/Task';
 import { selectTask } from '../features/taskSlice';
-import AddTask from './AddTask';
 
 const TaskList = () => {
   const [isAdding, setIsAdding] = useState<boolean>(false)
