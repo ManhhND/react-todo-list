@@ -54,7 +54,7 @@ const TaskForm = ({
         <form className="p-4" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="text-violet-500" htmlFor="title">Title</label>
-            <input className="w-full p-2 border border-violet-500 rounded-md" type="text" id="title" name='title' required onChange={handleTitleChange} defaultValue={taskData?.title} ref={titleRef} />
+            <input className="w-full p-2 border border-violet-500 rounded-md" type="text" id="title" name='title' required onChange={handleTitleChange} defaultValue={taskData?.title} ref={titleRef} autoFocus />
           </div>
           <div className="mb-4">
             <label className="text-violet-500" htmlFor="description">Description</label>
