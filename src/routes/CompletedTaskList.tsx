@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { MdAddTask } from 'react-icons/md';
 import { Outlet } from 'react-router-dom';
 import { useAppSelector } from '../app/hook';
+import AddTask from '../components/AddTask';
 import Task, { TaskItem } from '../components/Task';
 import { selectTask } from '../features/taskSlice';
-import AddTask from './AddTask';
 
 const CompletedTaskList = () => {
   const [isAdding, setIsAdding] = useState<boolean>(false)

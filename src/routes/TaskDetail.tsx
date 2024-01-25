@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hook';
+import EditTask from '../components/EditTask';
 import { deleteTask, selectTask } from '../features/taskSlice';
-import EditTask from './EditTask';
 
 const TaskDetail = () => {
   const [isEditting, setIsEditting] = useState<boolean>(false)
@@ -29,8 +29,8 @@ const TaskDetail = () => {
     <>
       {isEditting && <EditTask onStopEditting={hideModal} taskData={task} />}
       <article className="text-center lg:w-2/3 lg:mx-auto mb-10">
-        <h2 className="mb-4 font-bold text-4xl uppercase">{task.title}</h2>
-        <p className="italic">{task.description}</p>
+        <h2 className="font-bold text-4xl uppercase inline">{task.title} {task.completed ? '(completed)' : ''}</h2>
+        <p className="italic mt-4">{task.description}</p>
         {/* <time>Due date: {task.date}</time> */}
       </article>
       <div className="flex gap-2 justify-center">
