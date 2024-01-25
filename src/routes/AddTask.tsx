@@ -1,8 +1,12 @@
 import TaskForm from "../components/TaskForm";
 
-const AddTask = ({ onStopAdding }: { onStopAdding: () => void }) => {
+const AddTask = ({
+  onStopAdding
+}: {
+  onStopAdding: () => void
+}) => {
 
-  return <TaskForm action="add" onModalClose={onStopAdding} />;
+  return <TaskForm action="create" onModalClose={onStopAdding} />;
 }
 
 export default AddTask;

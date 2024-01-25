@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../app/store'
-import { TaskItem } from '../routes/TaskList'
+import { TaskItem } from '../components/Task'
 
 // Define a type for the slice state
 export interface TaskState {
@@ -27,9 +27,11 @@ export const taskSlice = createSlice({
         task.id === action.payload.id ? {
           ...task,
           title: action.payload.title,
-          description: action.payload.description
+          description: action.payload.description,
+          completed: action.payload.completed
         } : task
       )
+      state.tasks = [...state.tasks.filter((task) => !task.completed), ...state.tasks.filter((task) => task.completed)]
     },
 
     deleteTask: (state, action: PayloadAction<TaskItem>) => {
