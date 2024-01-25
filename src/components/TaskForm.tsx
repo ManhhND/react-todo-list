@@ -43,6 +43,7 @@ const TaskForm = ({
       submittedData.id = taskData.id
       submittedData.title = titleRef.current?.value as string
       submittedData.description = descriptionRef.current?.value as string
+      submittedData.completed = completionRef.current?.checked as boolean
       dispatch(updateTask(submittedData))
     }
     onModalClose()
