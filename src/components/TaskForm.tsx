@@ -24,6 +24,7 @@ const TaskForm = ({
     title: "",
     description: "",
     dueDate: "",
+    priority: "medium",
     completed: false
   };
   const [formValues, setFormValues] = useState<TaskItem>(intialValues)
@@ -32,10 +33,11 @@ const TaskForm = ({
   const dispatch = useAppDispatch()
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
-  const completionRef = useRef<HTMLInputElement>(null)
   const dueDateRef = useRef<HTMLInputElement>(null)
+  const priorityRef = useRef<HTMLSelectElement>(null)
+  const completionRef = useRef<HTMLInputElement>(null)
 
-  const handleFieldChange = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+  const handleFieldChange = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormValues({ ...formValues, [name]: value })
   }
@@ -47,8 +49,10 @@ const TaskForm = ({
       title: formValues.title ? formValues.title : titleRef.current?.value as string,
       description: formValues.description ? formValues.description : descriptionRef.current?.value as string,
       dueDate: formValues.dueDate ? formValues.dueDate : dueDateRef.current?.value as string,
+      priority: formValues.priority ? formValues.priority : priorityRef.current?.value as string,
       completed: completionRef.current?.checked as boolean,
     }
+
     setFormErrors(validate(formStateData))
     setIsSubmitting(true)
   }
@@ -58,7 +62,7 @@ const TaskForm = ({
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1);
     const inputDate = new Date(values.dueDate)
-    
+
     if (!values.title) {
       errors.title = "title field is required"
     }
@@ -84,6 +88,7 @@ const TaskForm = ({
       title: formValues.title ? formValues.title : titleRef.current?.value as string,
       description: formValues.description ? formValues.description : descriptionRef.current?.value as string,
       dueDate: formValues.dueDate ? formValues.dueDate : dueDateRef.current?.value as string,
+      priority: formValues.priority ? formValues.priority : priorityRef.current?.value as string,
       completed: completionRef.current?.checked as boolean,
     }
     if (action === 'create' && Object.keys(formErrors).length === 0) {
@@ -100,19 +105,27 @@ const TaskForm = ({
       <Modal onClose={onModalClose}>
         <form className="p-4" onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="text-violet-500" htmlFor="title">Title</label>
+            <label className="block mb-2 text-sm font-medium text-violet-500" htmlFor="title">Title</label>
             <input className="w-full p-2 border border-violet-500 rounded-md" type="text" id="title" name="title" onChange={handleFieldChange} defaultValue={taskData?.title} ref={titleRef} autoFocus />
             <span className="text-red-500 italic">{formErrors?.title}</span>
           </div>
           <div className="mb-4">
-            <label className="text-violet-500" htmlFor="description">Description</label>
+            <label className="block mb-2 text-sm font-medium text-violet-500" htmlFor="description">Description</label>
             <textarea className="block p-2 w-full border border-violet-500 rounded-md" id="description" name="description" rows={5} onChange={handleFieldChange} defaultValue={taskData?.description} ref={descriptionRef} />
             <span className="text-red-500 italic">{formErrors.description ?? formErrors.description}</span>
           </div>
           <div className="mb-4">
-            <label className="text-violet-500" htmlFor="title">Due Date</label>
-            <input className="w-full p-2 border border-violet-500 rounded-md" type="date" id="dueDate" name="dueDate" onChange={handleFieldChange} defaultValue={taskData?.dueDate} ref={dueDateRef} />
+            <label className="block mb-2 text-sm font-medium text-violet-500" htmlFor="dueDate">Due Date</label>
+            <input className="w-full p-2 border border-violet-500 rounded-md text-violet-500" type="date" id="dueDate" name="dueDate" onChange={handleFieldChange} defaultValue={taskData?.dueDate} ref={dueDateRef} />
             <span className="text-red-500 italic">{formErrors.dueDate ?? formErrors.dueDate}</span>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium text-violet-500" htmlFor="priority">Priority</label>
+            <select name="priority" className="bg-gray-50 border border-violet-500 text-violet-500 mb-6 text-sm rounded-lg focus:ring-violet-700 focus:border-violet-700 block p-2.5" onChange={handleFieldChange} defaultValue={taskData ? taskData.priority : intialValues.priority} ref={priorityRef}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
           </div>
           {action === 'update' && <div className="mb-4">
             <input type="checkbox" className="hidden peer" id={`task-${taskData?.id}-completion`} ref={completionRef}defaultChecked={taskData?.completed} />
