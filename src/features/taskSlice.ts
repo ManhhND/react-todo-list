@@ -28,6 +28,8 @@ export const taskSlice = createSlice({
           ...task,
           title: action.payload.title,
           description: action.payload.description,
+          dueDate: action.payload.dueDate,
+          priority: action.payload.priority,
           completed: action.payload.completed
         } : task
       )
