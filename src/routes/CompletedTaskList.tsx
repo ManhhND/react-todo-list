@@ -32,7 +32,7 @@ const CompletedTaskList = () => {
       {isAdding && <AddTask onStopAdding={hideModal} />}
       {completedTaskList.length > 0 && (
         <ul>
-          {completedTaskList.map((task: TaskItem) => <Task id={task.id} title={task.title} description={task.description} completed={task.completed} key={`task-${task.id}`} />)}
+          {completedTaskList.map((task: TaskItem) => <Task id={task.id} title={task.title} description={task.description} dueDate={task.dueDate} priority={task.priority} completed={task.completed} key={`task-${task.id}`} />)}
         </ul>
       )}
       {completedTaskList.length === 0 && (
