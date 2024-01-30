@@ -1,8 +1,14 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../app/hook";
 import { addTask, updateTask } from "../features/taskSlice";
 import Modal from "./Modal";
 import { TaskItem } from "./Task";
+
+type FormErrors = {
+  title?: string,
+  description?: string,
+  dueDate?: string
+}
 
 const TaskForm = ({
   action,
@@ -13,54 +19,102 @@ const TaskForm = ({
   onModalClose: () => void,
   taskData?: TaskItem
 }) => {
-  const [enteredTitle, setEnteredTitle] = useState<string>('')
-  const [enteredDescription, setEnteredDescription] = useState<string>('')
+  const intialValues: TaskItem = {
+    id: Math.round(Math.random() * 10000).toString(),
+    title: "",
+    description: "",
+    dueDate: "",
+    completed: false
+  };
+  const [formValues, setFormValues] = useState<TaskItem>(intialValues)
+  const [formErrors, setFormErrors] = useState<FormErrors>({})
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useAppDispatch()
   const titleRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const completionRef = useRef<HTMLInputElement>(null)
+  const dueDateRef = useRef<HTMLInputElement>(null)
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEnteredTitle(e.target.value)
-  }
-
-  const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setEnteredDescription(e.target.value)
+  const handleFieldChange = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormValues({ ...formValues, [name]: value })
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const submittedData = {
-      id: Math.round(Math.random() * 10000).toString(),
-      title: enteredTitle,
-      description: enteredDescription,
-      completed: false
+    e.preventDefault()
+    const formStateData = {
+      id: taskData?.id ? taskData.id : formValues.id,
+      title: formValues.title ? formValues.title : titleRef.current?.value as string,
+      description: formValues.description ? formValues.description : descriptionRef.current?.value as string,
+      dueDate: formValues.dueDate ? formValues.dueDate : dueDateRef.current?.value as string,
+      completed: completionRef.current?.checked as boolean,
     }
-    if (action === 'create') {
-      dispatch(addTask(submittedData))
+    setFormErrors(validate(formStateData))
+    setIsSubmitting(true)
+  }
+
+  const validate = (values: TaskItem) => {
+    const errors: FormErrors = {}
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const inputDate = new Date(values.dueDate)
+    
+    if (!values.title) {
+      errors.title = "title field is required"
+    }
+    if (!values.description) {
+      errors.description = "description field is required"
+    }
+    if (tomorrow > inputDate) {
+      errors.dueDate = "due date should be a day greater than today"
+    }
+
+    return errors;
+  }
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmitting) {
+      submitForm()
+    }
+  }, [formErrors])
+
+  const submitForm = () => {
+    const formStateData = {
+      id: taskData?.id ? taskData.id : formValues.id,
+      title: formValues.title ? formValues.title : titleRef.current?.value as string,
+      description: formValues.description ? formValues.description : descriptionRef.current?.value as string,
+      dueDate: formValues.dueDate ? formValues.dueDate : dueDateRef.current?.value as string,
+      completed: completionRef.current?.checked as boolean,
+    }
+    if (action === 'create' && Object.keys(formErrors).length === 0) {
+      dispatch(addTask(formStateData))
     }
     if (action === 'update' && taskData) {
-      submittedData.id = taskData.id
-      submittedData.title = titleRef.current?.value as string
-      submittedData.description = descriptionRef.current?.value as string
-      submittedData.completed = completionRef.current?.checked as boolean
-      dispatch(updateTask(submittedData))
+      dispatch(updateTask(formStateData))
     }
     onModalClose()
-  }
+  };
+
   return (
     <>
       <Modal onClose={onModalClose}>
         <form className="p-4" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="text-violet-500" htmlFor="title">Title</label>
-            <input className="w-full p-2 border border-violet-500 rounded-md" type="text" id="title" name='title' required onChange={handleTitleChange} defaultValue={taskData?.title} ref={titleRef} autoFocus />
+            <input className="w-full p-2 border border-violet-500 rounded-md" type="text" id="title" name="title" onChange={handleFieldChange} defaultValue={taskData?.title} ref={titleRef} autoFocus />
+            <span className="text-red-500 italic">{formErrors?.title}</span>
           </div>
           <div className="mb-4">
             <label className="text-violet-500" htmlFor="description">Description</label>
-            <textarea className="block p-2 w-full border border-violet-500 rounded-md" id="description" name='description' required rows={5} onChange={handleDescriptionChange} defaultValue={taskData?.description} ref={descriptionRef} />
+            <textarea className="block p-2 w-full border border-violet-500 rounded-md" id="description" name="description" rows={5} onChange={handleFieldChange} defaultValue={taskData?.description} ref={descriptionRef} />
+            <span className="text-red-500 italic">{formErrors.description ?? formErrors.description}</span>
           </div>
-          {action == 'update' && <div className="mb-4">
+          <div className="mb-4">
+            <label className="text-violet-500" htmlFor="title">Due Date</label>
+            <input className="w-full p-2 border border-violet-500 rounded-md" type="date" id="dueDate" name="dueDate" onChange={handleFieldChange} defaultValue={taskData?.dueDate} ref={dueDateRef} />
+            <span className="text-red-500 italic">{formErrors.dueDate ?? formErrors.dueDate}</span>
+          </div>
+          {action === 'update' && <div className="mb-4">
             <input type="checkbox" className="hidden peer" id={`task-${taskData?.id}-completion`} ref={completionRef}defaultChecked={taskData?.completed} />
             <label
               htmlFor={`task-${taskData?.id}-completion`}
