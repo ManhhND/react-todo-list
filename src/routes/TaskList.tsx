@@ -35,7 +35,7 @@ const TaskList = () => {
       {isAdding && <AddTask onStopAdding={hideModal} />}
       {taskList.length > 0 && (
         <ul>
-          {taskList.map((task: TaskItem) => <Task id={task.id} title={task?.title} description={task?.description} completed={task.completed} key={`task-${task.id}`} />)}
+          {taskList.map((task: TaskItem) => <Task id={task.id} title={task?.title} description={task?.description} dueDate={task.dueDate} completed={task.completed} key={`task-${task.id}`} />)}
         </ul>
       )}
       {taskList.length === 0 && (

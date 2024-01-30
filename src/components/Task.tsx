@@ -8,7 +8,8 @@ import EditTask from './EditTask'
 export type TaskItem = {
   id: string,
   title: string,
-  description: string
+  description: string,
+  dueDate: string,
   completed: boolean
 }
 

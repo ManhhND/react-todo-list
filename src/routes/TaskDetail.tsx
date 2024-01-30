@@ -31,7 +31,7 @@ const TaskDetail = () => {
       <article className="text-center lg:w-2/3 lg:mx-auto mb-10">
         <h2 className="font-bold text-4xl uppercase inline">{task.title} {task.completed ? '(completed)' : ''}</h2>
         <p className="italic mt-4">{task.description}</p>
-        {/* <time>Due date: {task.date}</time> */}
+        <time>Due date: {task.dueDate}</time>
       </article>
       <div className="flex gap-2 justify-center">
         <button className="p-4 rounded-md bg-violet-500 hover:bg-violet-600 text-white w-1/2 md:w-1/5" type="button" onClick={showModal}>Edit</button>
