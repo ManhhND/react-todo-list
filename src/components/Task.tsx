@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
+import { FcHighPriority, FcLowPriority, FcMediumPriority } from 'react-icons/fc'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hook'
 import { deleteTask, selectTask, updateTask } from '../features/taskSlice'
@@ -8,7 +9,9 @@ import EditTask from './EditTask'
 export type TaskItem = {
   id: string,
   title: string,
-  description: string
+  description: string,
+  dueDate: string,
+  priority: string,
   completed: boolean
 }
 
@@ -16,6 +19,7 @@ const Task = ({
   id,
   title,
   description,
+  priority,
   completed
 }: TaskItem) => {
   const [isEditting, setIsEditting] = useState<boolean>(false)
@@ -46,7 +50,7 @@ const Task = ({
   return (
     <>
       {isEditting && <EditTask onStopEditting={hideModal} taskData={task} />}
-      <li className={`p-4 border-2 rounded-lg border-violet-500 mb-4 ${completed ? 'bg-gray-200' : 'hover:bg-amber-400'}`}>
+      <li className={`p-4 border-2 rounded-lg border-violet-500 mb-4 ${completed ? 'bg-gray-200' : 'hover:bg-amber-100'}`}>
         <div className="flex justify-between gap-4">
           <div className="w-1/12 flex">
             <input type="checkbox" className="hidden peer" id={`task-${id}-completion`} onClick={handleCompleteTask} defaultChecked={completed} />
@@ -55,7 +59,11 @@ const Task = ({
             </label>
           </div>
           <div className="w-10/12">
-            <h2 className={`font-bold text-lg uppercase ${completed ? 'line-through text-gray-500' : ''}`}>{title}</h2>
+            <h2 className={`font-bold text-lg uppercase ${completed ? 'line-through text-gray-500' : ''} flex items-center gap-2`}>{title} 
+            {priority === 'low' && <FcLowPriority title="low priority" />}
+            {priority === 'medium' && <FcMediumPriority title="medium priority" />}
+            {priority === 'high' && <FcHighPriority title="high priority" />}
+            </h2>
             <p className={`italic ${completed ? 'line-through text-gray-500' : ''}`}>{description}</p>
           </div>
           <div className="flex gap-2 justify-center items-center">
