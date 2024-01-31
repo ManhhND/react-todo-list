@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../app/hook'
 import { deleteTask, selectTask, updateTask } from '../features/taskSlice'
 import EditTask from './EditTask'
 
-export type TaskItem = {
+export interface TaskItem {
   id: string,
   title: string,
   description: string,

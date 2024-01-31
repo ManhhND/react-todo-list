@@ -11,7 +11,7 @@ Go to project:
 ```
 cd react-todo-list
 ```
-Install packages (node version >= 18):
+Install packages (Node version used: `v18.19.0`):
 ```
 npm install
 ```

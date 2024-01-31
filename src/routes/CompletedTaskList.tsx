@@ -30,16 +30,15 @@ const CompletedTaskList = () => {
       </div>
       <div className="clear-both"></div>
       {isAdding && <AddTask onStopAdding={hideModal} />}
-      {completedTaskList.length > 0 && (
-        <ul>
-          {completedTaskList.map((task: TaskItem) => <Task id={task.id} title={task.title} description={task.description} dueDate={task.dueDate} priority={task.priority} completed={task.completed} key={`task-${task.id}`} />)}
-        </ul>
-      )}
-      {completedTaskList.length === 0 && (
-        <div className="text-center">
-          <h2 className="text-violet-500">There are no tasks completed. Let's get some!</h2>
-        </div>
-      )}
+      {completedTaskList.length > 0 ?
+      <ul>
+        {completedTaskList.map((task: TaskItem) => <Task {...task} key={`task-${task.id}`} />)}
+      </ul>
+      :
+      <div className="text-center">
+        <h2 className="text-violet-500">There are no tasks completed. Let's get some!</h2>
+      </div>
+      }
     </>
   )
 }

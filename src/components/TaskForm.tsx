@@ -1,4 +1,6 @@
+import { nanoid } from "@reduxjs/toolkit";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hook";
 import { addTask, updateTask } from "../features/taskSlice";
 import Modal from "./Modal";
@@ -20,7 +22,7 @@ const TaskForm = ({
   taskData?: TaskItem
 }) => {
   const intialValues: TaskItem = {
-    id: Math.round(Math.random() * 10000).toString(),
+    id: nanoid(),
     title: "",
     description: "",
     dueDate: "",
@@ -36,6 +38,7 @@ const TaskForm = ({
   const dueDateRef = useRef<HTMLInputElement>(null)
   const priorityRef = useRef<HTMLSelectElement>(null)
   const completionRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate();
 
   const handleFieldChange = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -93,6 +96,7 @@ const TaskForm = ({
     }
     if (action === 'create' && Object.keys(formErrors).length === 0) {
       dispatch(addTask(formStateData))
+      navigate('/')
     }
     if (action === 'update' && taskData) {
       dispatch(updateTask(formStateData))
